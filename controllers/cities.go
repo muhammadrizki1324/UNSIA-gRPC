@@ -12,7 +12,7 @@ type City struct{
 	DB *sql.DB;
 	cities.UnimplementedCitiesServiceServer
 }
-// GetCity function
+// Get City 
 func (s *City) GetCity(ctx context.Context, in *cities.Id) (*cities.City, error) {
 	var cityModel models.City
 	err := cityModel.Get(ctx, s.DB, in)	
@@ -22,5 +22,11 @@ func (s *City) GetCity(ctx context.Context, in *cities.Id) (*cities.City, error)
 func (s *City) Create(ctx context.Context, in *cities.CityInput) (*cities.City, error){
 	var cityModel models.City
 	err := cityModel.Create(ctx, s.DB, in)	
+	return &cityModel.Pb, err
+}
+//Update City
+func (s *City) Update(ctx context.Context, in *cities.City) (*cities.City, error){
+	var cityModel models.City
+	err := cityModel.Update(ctx, s.DB, in)	
 	return &cityModel.Pb, err
 }
