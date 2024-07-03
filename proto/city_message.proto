@@ -1,0 +1,25 @@
+syntax = "proto3";
+package cities;
+option go_package="pb/cities;cities";
+
+message City {
+  int32 id = 1;
+  string name = 2;
+}
+message CitiesStream {
+  City city = 1;
+}
+
+message EmptyMessage {}
+
+message Id {
+  int32 id = 1;
+}
+
+message CityInput {
+  string name = 1;
+}
+
+message MyBoolean {
+  bool boolean = 1;
+}
