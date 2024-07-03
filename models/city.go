@@ -4,18 +4,20 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"log"
 	"unsia/pb/cities"
 )
 
 type City struct {
+    Log *log.Logger
     Pb cities.City
 }
 //Get City
 func (u *City) Get(ctx context.Context, db *sql.DB, in *cities.Id) error {
-
     query := "SELECT id, name FROM cities WHERE id = $1"
     err := db.QueryRowContext(ctx, query, in.Id).Scan(&u.Pb.Id, &u.Pb.Name)
     if err != nil {
+        u.Log.Println("ERROR SELECT CITIES", err)
         return err
     }
     return nil

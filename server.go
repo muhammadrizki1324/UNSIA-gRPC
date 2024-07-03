@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 	"unsia/controllers"
 	"unsia/pb/cities"
 	"unsia/pkg/database"
@@ -15,6 +16,7 @@ import (
 )
 
 func main() {
+	log := log.New(os.Stdout, "CRUD-go : ", log.LstdFlags|log.Lmicroseconds|log.Lshortfile)
 	lis, err := net.Listen("tcp", ":8080")
 	if err != nil {
 		fmt.Printf("failed to listen: %v", err)
@@ -31,7 +33,7 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 
-	cityServer := controllers.City{DB: db, }
+	cityServer := controllers.City{DB: db, Log: log}
 	cities.RegisterCitiesServiceServer(grpcServer, &cityServer)
 
 	fmt.Println("running server grpc")

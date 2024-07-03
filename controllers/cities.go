@@ -3,6 +3,7 @@ package controllers
 import (
 	"context"
 	"database/sql"
+	"log"
 	"unsia/models"
 	"unsia/pb/cities"
 
@@ -12,12 +13,14 @@ import (
 
 // City struct
 type City struct{
+	Log *log.Logger
 	DB *sql.DB;
 	cities.UnimplementedCitiesServiceServer
 }
 // Get City 
 func (s *City) GetCity(ctx context.Context, in *cities.Id) (*cities.City, error) {
 	var cityModel models.City
+	cityModel.Log = s.Log
 	err := cityModel.Get(ctx, s.DB, in)	
 	return &cityModel.Pb, err
 }
